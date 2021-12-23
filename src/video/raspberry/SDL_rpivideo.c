@@ -264,7 +264,7 @@ RPI_CreateWindow(_THIS, SDL_Window * window)
     const char *env;
 
     /* Disable alpha, otherwise the app looks composed with whatever dispman is showing (X11, console,etc) */
-    dispman_alpha.flags = DISPMANX_FLAGS_ALPHA_FIXED_ALL_PIXELS; 
+    dispman_alpha.flags = DISPMANX_FLAGS_ALPHA_FROM_SOURCE; 
     dispman_alpha.opacity = 0xFF; 
     dispman_alpha.mask = 0;
 
@@ -319,6 +319,12 @@ RPI_CreateWindow(_THIS, SDL_Window * window)
             return -1;
         }
     }
+
+    _this->gl_config.alpha_size = 8;
+    _this->gl_config.red_size = 8;
+    _this->gl_config.green_size = 8;
+    _this->gl_config.blue_size = 8;
+
     wdata->egl_surface = SDL_EGL_CreateSurface(_this, (NativeWindowType) &wdata->dispman_window);
 
     if (wdata->egl_surface == EGL_NO_SURFACE) {
